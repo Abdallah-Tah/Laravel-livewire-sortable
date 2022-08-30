@@ -10,7 +10,8 @@ class Tasks extends Component
 {
     use WithPagination;
     public $name;
-    public $taskId;   
+    public $taskId;
+    public $search;
 
     public $modalFormVisible = false;
     public $modalConfirmDeleteVisible = false;
@@ -118,7 +119,7 @@ class Tasks extends Component
      */
     public function getTasks()
     {
-        return Task::orderBy('priority')->paginate(10);
+        return Task::search('name', $this->search)->paginate(10);
     }
 
 

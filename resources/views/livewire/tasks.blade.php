@@ -1,36 +1,44 @@
-   <div class="py-4">
-{{--     <a href="https://app.daily.dev/AbdallahTM86"><img src="https://api.daily.dev/devcards/18cf961802e1488db3f3b9f6b71bc590.png?r=n5x" width="400" alt="Abdallah Mohamed's Dev Card"/></a>
- --}}       <div class="flex-col space-y-4">
+   <div class="py-4 space-y-4">
+       {{-- <a href="https://app.daily.dev/AbdallahTM86"><img src="https://api.daily.dev/devcards/18cf961802e1488db3f3b9f6b71bc590.png?r=n5x" width="400" alt="Abdallah Mohamed's Dev Card"/></a> --}} <div class="flex-col space-y-4">
            <div class="flex justify-end items-center px-4 text-right sm:px-6">
                <x-jet-button wire:click="createShowModal">
                    {{ __('Create Task') }}
                </x-jet-button>
            </div>
 
-           <table class="min-w-full divide-y divide-gray-200">
+           <div>
+               <div class="w-1/4">
+                   <x-jet-input type="text" wire:model="search"
+                       class="w-full rounded-lg shadow-md focus:outline-none focus:shadow-outline-blue focus:border-blue-300 border-b-2 border-gray-300 py-2 pl-10 pr-4 block"
+                       placeholder="Search..." />
+               </div>
+           </div>
+
+           <table class="min-w-full divide-y divide-gray-200 rounded-lg shadow-md">
                <thead class="bg-gray-50 text-center">
                    <tr>
                        <th
-                           class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                           class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
+                           sortable direction="desc">
                            {{ __('No') }}
                        </th>
-                       <th
+                       <th sortable direction="desc"
                            class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                            {{ __('Position') }}
                        </th>
-                       <th
+                       <th sortable direction="desc"
                            class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                            {{ __('Create At') }}
                        </th>
-                       <th
+                       <th sortable direction="desc"
                            class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                            {{ __('Name') }}
                        </th>
-                       <th
+                       <th sortable direction="desc"
                            class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                            {{ __('Priority') }}
                        </th>
-                       <th
+                       <th sortable direction="desc"
                            class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                            {{ __('Action') }}
                        </th>
@@ -40,7 +48,7 @@
                    @if ($tasks->count())
                        @foreach ($tasks as $task)
                            <tr class="hover:bg-gray-50" wire:sortable.item="{{ $task->id }}"
-                               wire:key="task-{{ $task->id }}">
+                               wire:key="task-{{ $task->id }}" wire.loading.class="opacity-50">
                                <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500 text-center">
                                    {{ $loop->iteration }}
                                </td>
@@ -81,13 +89,18 @@
                        @endforeach
                    @else
                        <tr>
-                           <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500 col-end-3">
-                               {{ __('No tasks found.') }}
+                           <td colspan="7" class="text-center">
+                               <div class="flex items-center justify-center">
+                                   <span class="font-medium py-6 text-cool-gray-500 text-xl">
+                                    {{ __('No tasks found...') }}
+                                   </span>
+                               </div>
                            </td>
+                       </tr>
                    @endif
                </tbody>
            </table>
-           
+
            {{ $tasks->links() }}
 
 
