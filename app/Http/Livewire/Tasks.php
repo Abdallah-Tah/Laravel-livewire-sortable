@@ -75,7 +75,7 @@ class Tasks extends Component
      */
     public function delete()
     {
-        Task::destroy($this->TaskId);
+        Task::destroy($this->taskId);
         $this->modalConfirmDeleteVisible = false;
         $this->resetPage();
 
@@ -101,8 +101,10 @@ class Tasks extends Component
     public function createTask()
     {
         $this->validate();
+        $task_latest_id = Task::latest()->first()->id;
         $task = Task::create([
             'name' => $this->name,
+            'priority' => $task_latest_id + 1,
         ]);
         $this->modalFormVisible = false;
         $this->resetPage();
